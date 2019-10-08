@@ -4,7 +4,6 @@ services:
 
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
-  - cd ./nodejs
 
 script:
   - npm install
