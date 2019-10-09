@@ -39,6 +39,7 @@ router.get('/:id', async (req, res, next) => {
     })
 })
 
+/* POST single food */
 router.post('/', async (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
 
@@ -53,5 +54,24 @@ router.post('/', async (req, res, next) => {
       res.status(500).send({ error })
     })
 });
+
+/* PATCH single food */
+router.patch('/:id', async (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+
+  await food.update({
+    name: req.body.name,
+    calories: req.body.calories
+  },
+    { returning: true, where: { id: req.params.id } }
+  )
+    .then(async updatedFood => {
+      res.status(200).send(updatedFood[1][0])
+    })
+    .catch(async error => {
+      res.send(500).send({ error })
+    })
+})
+
 
 module.exports = router;
