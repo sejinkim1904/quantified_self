@@ -26,17 +26,17 @@ describe('Meals API', () => {
 
       const parfait = await meal.create({
         name: 'Yoplait Parfait'
-      })
+      });
 
       await mealFood.create({
         foodId: apple.id,
         mealId: parfait.id
-      })
+      });
 
       return request(app).delete(`/api/v1/meals/${parfait.id}/foods/${apple.id}`)
         .then(response => {
           expect(response.status).toBe(204)
-        })
-    })
-  })
-})
+        });
+    });
+  });
+});
