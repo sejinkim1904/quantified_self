@@ -24,4 +24,25 @@ router.get('/', async (req, res, next) => {
     })
 })
 
+router.get('/:meal_id/foods', async (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+
+  await meal.findOne({
+    where: { id: req.params.meal_id },
+    include : [{
+      model: food,
+      as: 'foods',
+      through: {
+        attributes: []
+      }
+    }]
+  })
+    .then(async meal => {
+      res.status(200).send(meal)
+    })
+    .catch(async error => {
+      res.status(500).send({ error })
+    })
+})
+
 module.exports = router;
