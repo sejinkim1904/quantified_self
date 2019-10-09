@@ -58,10 +58,28 @@ router.post('/:meal_id/foods/:id', async (req, res, next) => {
     .then(async mealFood => {
       const getFood = await food.findOne({where: mealFood.foodId})
       const getMeal = await meal.findOne({where: mealFood.mealId})
-      
+
       res.status(201).send({
         "message": `Successfully added ${getFood.name} to ${getMeal.name}`
       })
+    })
+    .catch(async error => {
+      res.status(500).send({ error })
+    })
+})
+
+/* DELETE food from meal */
+router.delete('/:meal_id/foods/:id', async (req, res, next) => {
+  res.setHeader('Content-type', 'application/json')
+
+  await mealFood.destroy({
+    where: {
+      mealId: req.params.meal_id,
+      foodId: req.params.id,
+    }
+  })
+    .then(async destroyedMealFood => {
+      res.status(204).send()
     })
     .catch(async error => {
       res.status(500).send({ error })
