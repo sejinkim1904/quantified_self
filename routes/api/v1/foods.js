@@ -13,7 +13,7 @@ router.get('/', async (req, res, next) => {
     .catch(error => {
       res.status(500).send({ error })
     })
-})
+});
 
 /* GET single food */
 router.get('/:id', async (req, res, next) => {
@@ -37,7 +37,7 @@ router.get('/:id', async (req, res, next) => {
     .catch(async error => {
       res.status(500).send({ error })
     })
-})
+});
 
 /* POST single food */
 router.post('/', async (req, res, next) => {
@@ -71,7 +71,25 @@ router.patch('/:id', async (req, res, next) => {
     .catch(async error => {
       res.send(500).send({ error })
     })
-})
+});
 
+/* DELETE single food */
+router.delete('/:id', async (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+
+  await food.destroy({
+    where: { id: req.params.id }
+  })
+    .then(async destroyedFood => {
+      if(destroyedFood === 1) {
+        res.status(204).send()
+        return;
+      }
+      res.status(404).send( { message: "Record not found" } )
+    })
+    .catch(async error => {
+      res.status(500).send({ error })
+    })
+});
 
 module.exports = router;
