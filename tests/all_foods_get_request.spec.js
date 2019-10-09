@@ -17,6 +17,10 @@ describe('api', () => {
     });
   });
 
+  afterEach(async () => {
+    await food.destroy({where: {}});
+  });
+
   describe('All Foods GET request', () => {
     test('It returns all foods currently in the database', () => {
       return request(app).get('/api/v1/foods').then(response => {
