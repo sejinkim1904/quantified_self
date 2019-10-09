@@ -39,4 +39,19 @@ router.get('/:id', async (req, res, next) => {
     })
 })
 
+router.post('/', async (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+
+  await food.create({
+    name: req.body.name,
+    calories: req.body.calories,
+  })
+    .then(async newFood => {
+      res.status(201).send(newFood)
+    })
+    .catch(async error => {
+      res.status(500).send({ error })
+    })
+});
+
 module.exports = router;
