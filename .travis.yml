@@ -4,9 +4,6 @@ node_js:
 services:
   - postgresql
 
-before_script:
-  - psql -c 'create database quantified_self_database_test;' -U postgres
-
 script:
   - npm install
 
