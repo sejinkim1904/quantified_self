@@ -5,8 +5,7 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
-  - npx sequelize db:migrate
+  - psql -c 'create database quantified_self_database_test;' -U postgres
 
 script:
   - npm install
