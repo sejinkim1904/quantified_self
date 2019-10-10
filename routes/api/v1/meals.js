@@ -8,6 +8,14 @@ const mealFood = require('../../../models').MealFood;
 router.post('/', async (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
 
+  if (!req.body.name) {
+    payload = {
+      message: 'Name is required.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
+  
   await meal.create({
     name: req.body.name,
   })
