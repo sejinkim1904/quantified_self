@@ -26,14 +26,38 @@ describe('Meals API', () => {
 
       const parfait = await meal.create({
         name: 'Yoplait Parfait'
-      })
+      });
 
       return request(app).post(`/api/v1/meals/${parfait.id}/foods/${apple.id}`)
         .then(response => {
           expect(response.status).toBe(201)
-          console.log(response.body)
           expect(Object.keys(response.body)).toContain('message')
-        })
-    })
-  })
-})
+        });
+    });
+
+    test('It returns a 404 if food is not found', async () => {
+      const parfait = await meal.create({
+        name: 'Yoplait Parfait'
+      });
+
+      return request(app).post(`/api/v1/meals/${parfait.id}/foods/90`)
+        .then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe('Food not found.')
+        });
+    });
+
+    test('It returns a 404 if meal is not found', async () => {
+      const apple = await food.create({
+        "name": "Apple",
+        "calories": 220
+      });
+
+      return request(app).post(`/api/v1/meals/90/foods/${apple.id}`)
+        .then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe('Meal not found.')
+        });
+    });
+  });
+});
