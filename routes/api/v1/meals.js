@@ -110,6 +110,25 @@ router.post('/:meal_id/foods/:id', async (req, res, next) => {
 router.delete('/:meal_id/foods/:id', async (req, res, next) => {
   res.setHeader('Content-type', 'application/json')
 
+  const getFood = await food.findOne({where: {id: req.params.id}})
+  const getMeal = await meal.findOne({where: {id: req.params.meal_id}})
+
+  if (!getFood) {
+    payload = {
+      message: 'Food not found.'
+    }
+    res.status(404).send(payload)
+    return;
+  }
+
+  if (!getMeal) {
+    payload = {
+      message: 'Meal not found.'
+    }
+    res.status(404).send(payload)
+    return;
+  }
+
   await mealFood.destroy({
     where: {
       mealId: req.params.meal_id,
@@ -121,7 +140,7 @@ router.delete('/:meal_id/foods/:id', async (req, res, next) => {
     })
     .catch(async error => {
       res.status(500).send({ error })
-    })
-})
+    });
+});
 
 module.exports = router;
