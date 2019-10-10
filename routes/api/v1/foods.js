@@ -26,8 +26,7 @@ router.get('/:id', async (req, res, next) => {
     .then(foundFood => {
       if (!foundFood) {
         payload = {
-          error: 'Food does not exist.',
-          status: 404
+          message: 'Food not found.'
         }
         res.status(404).send(payload)
         return;
@@ -43,6 +42,22 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
 
+  if (!req.body.name) {
+    payload = {
+      message: 'Name is a required field.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
+
+  if (!req.body.calories) {
+    payload = {
+      message: 'Calories is a required field.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
+
   await food.create({
     name: req.body.name,
     calories: req.body.calories,
@@ -52,12 +67,28 @@ router.post('/', async (req, res, next) => {
     })
     .catch(async error => {
       res.status(500).send({ error })
-    })
+    });
 });
 
 /* PATCH single food */
 router.patch('/:id', async (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
+
+  if (!req.body.name) {
+    payload = {
+      message: 'Name is a required field.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
+
+  if (!req.body.calories) {
+    payload = {
+      message: 'Calories is a required field.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
 
   await food.update({
     name: req.body.name,
@@ -85,11 +116,11 @@ router.delete('/:id', async (req, res, next) => {
         res.status(204).send()
         return;
       }
-      res.status(404).send( { message: "Record not found" } )
+      res.status(404).send( { message: 'Food is not found.' } )
     })
     .catch(async error => {
       res.status(500).send({ error })
-    })
+    });
 });
 
 module.exports = router;

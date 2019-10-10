@@ -21,7 +21,15 @@ describe('api', () => {
       return request(app).delete(`/api/v1/foods/${avocado.id}`)
         .then(response => {
           expect(response.status).toBe(204)
-        })
-    })
-  })
-})
+        });
+    });
+
+    test('It returns status code of 404', async () => {
+      return request(app).delete('/api/v1/foods/9000')
+        .then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe('Food is not found.')
+        });
+    });
+  });
+});

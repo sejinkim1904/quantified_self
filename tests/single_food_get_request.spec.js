@@ -17,12 +17,19 @@ describe('api', () => {
         name: 'avocado',
         calories: 9000
       });
-      
+
       return request(app).get(`/api/v1/foods/${avocado.id}`).then(response => {
         expect(response.status).toBe(200)
         expect(Object.keys(response.body)).toContain('name')
         expect(Object.keys(response.body)).toContain('calories')
-      })
-    })
-  })
-})
+      });
+    });
+
+    test('It returns a 404 if food is not found', async () => {
+      return request(app).get('/api/v1/foods/9000').then(response => {
+        expect(response.status).toBe(404)
+        expect(response.body.message).toBe('Food not found.')
+      });
+    });
+  });
+});
