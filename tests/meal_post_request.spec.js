@@ -12,7 +12,7 @@ describe('Meals API', () => {
       await meal.destroy({where: {}});
     });
 
-    test('it returns created meal', () => {
+    test('It returns created meal', async () => {
       const requestBody = {
         name: 'Parfait'
       }
@@ -22,6 +22,14 @@ describe('Meals API', () => {
         expect(Object.keys(response.body)).toContain('id')
         expect(Object.keys(response.body)).toContain('name')
       })
-    })
-  })
-})
+    });
+
+    test('It returns a 400 if meal is not created', async () => {
+      return request(app).post('/api/v1/meals')
+        .then(response => {
+          expect(response.status).toBe(400)
+          expect(response.body.message).toBe('Name is required.')
+        });
+    });
+  });
+});
