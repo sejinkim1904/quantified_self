@@ -116,11 +116,11 @@ router.delete('/:id', async (req, res, next) => {
         res.status(204).send()
         return;
       }
-      res.status(404).send( { message: "Record not found" } )
+      res.status(404).send( { message: 'Food is not found.' } )
     })
     .catch(async error => {
       res.status(500).send({ error })
-    })
+    });
 });
 
 module.exports = router;
