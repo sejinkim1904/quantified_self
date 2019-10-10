@@ -81,14 +81,30 @@ router.post('/:meal_id/foods/:id', async (req, res, next) => {
       const getFood = await food.findOne({where: mealFood.foodId})
       const getMeal = await meal.findOne({where: mealFood.mealId})
 
+      if (!getFood) {
+        payload = {
+          message: 'Food not found.'
+        }
+        res.status(404).send(payload)
+        return;
+      }
+
+      if (!getMeal) {
+        payload = {
+          message: 'Meal not found.'
+        }
+        res.status(404).send(payload)
+        return;
+      }
+
       res.status(201).send({
         "message": `Successfully added ${getFood.name} to ${getMeal.name}`
-      })
+      });
     })
     .catch(async error => {
       res.status(500).send({ error })
-    })
-})
+    });
+});
 
 /* DELETE food from meal */
 router.delete('/:meal_id/foods/:id', async (req, res, next) => {
