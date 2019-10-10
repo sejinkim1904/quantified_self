@@ -42,6 +42,22 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
 
+  if (!req.body.name) {
+    payload = {
+      message: 'Name is a required field.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
+
+  if (!req.body.calories) {
+    payload = {
+      message: 'Calories is a required field.'
+    }
+    res.status(400).send(payload)
+    return;
+  }
+
   await food.create({
     name: req.body.name,
     calories: req.body.calories,
@@ -51,7 +67,7 @@ router.post('/', async (req, res, next) => {
     })
     .catch(async error => {
       res.status(500).send({ error })
-    })
+    });
 });
 
 /* PATCH single food */
