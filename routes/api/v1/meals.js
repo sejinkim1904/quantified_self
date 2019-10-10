@@ -4,6 +4,21 @@ const food = require('../../../models').Food;
 const meal = require('../../../models').Meal;
 const mealFood = require('../../../models').MealFood;
 
+/* POST meal */
+router.post('/', async (req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+
+  await meal.create({
+    name: req.body.name,
+  })
+    .then(async meal => {
+      res.status(201).send(meal)
+    })
+    .catch(async error => {
+      res.status(500).send({ error })
+    })
+});
+
 /* GET all meals */
 router.get('/', async (req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
