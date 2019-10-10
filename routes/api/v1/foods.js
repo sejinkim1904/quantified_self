@@ -26,8 +26,7 @@ router.get('/:id', async (req, res, next) => {
     .then(foundFood => {
       if (!foundFood) {
         payload = {
-          error: 'Food does not exist.',
-          status: 404
+          message: 'Food not found.'
         }
         res.status(404).send(payload)
         return;
