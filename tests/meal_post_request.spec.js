@@ -14,7 +14,7 @@ describe('Meals API', () => {
 
     test('it returns created meal', () => {
       const requestBody = {
-        name: 'Parfait',
+        name: 'Parfait'
       }
 
       return request(app).post('/api/v1/meals').send(requestBody).then(response => {
