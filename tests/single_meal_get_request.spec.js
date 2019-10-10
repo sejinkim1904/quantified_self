@@ -36,22 +36,22 @@ describe('Meals API', () => {
 
       const parfait = await meal.create({
         name: 'Yoplait Parfait'
-      })
+      });
 
       await mealFood.create({
         mealId: parfait.id,
         foodId: banana.id
-      })
+      });
 
       await mealFood.create({
         mealId: parfait.id,
         foodId: apple.id
-      })
+      });
 
       await mealFood.create({
         mealId: parfait.id,
         foodId: yogurt.id
-      })
+      });
 
       return request(app).get(`/api/v1/meals/${parfait.id}/foods`)
         .then(response => {
@@ -60,7 +60,15 @@ describe('Meals API', () => {
           expect(Object.keys(response.body)).toContain('id')
           expect(Object.keys(response.body)).toContain('name')
           expect(Object.keys(response.body)).toContain('foods')
-        })
-    })
-  })
-})
+        });
+    });
+
+    test('It returns a 404 if meal is not found', async () => {
+      return request(app).get(`/api/v1/meals/90/foods`)
+        .then(response => {
+          expect(response.status).toBe(404)
+          expect(response.body.message).toBe('Meal not found.')
+        });
+    });
+  });
+});
