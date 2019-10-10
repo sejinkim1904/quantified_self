@@ -55,6 +55,13 @@ router.get('/:meal_id/foods', async (req, res, next) => {
     }]
   })
     .then(async meal => {
+      if (!meal) {
+        payload = {
+          message: 'Meal not found.'
+        }
+        res.status(404).send(payload)
+        return;
+      }
       res.status(200).send(meal)
     })
     .catch(async error => {
