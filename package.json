@@ -12,7 +12,7 @@
     "express": "~4.16.1",
     "jest": "^24.9.0",
     "morgan": "~1.9.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pg": "^7.12.1",
     "sequelize": "^5.19.4",
     "sequelize-cli": "^5.5.1",
